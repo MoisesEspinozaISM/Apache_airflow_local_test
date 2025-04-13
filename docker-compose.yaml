@@ -130,7 +130,7 @@ services:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
-      - /home/mespinoza/test_dbt_snowflake/test_dbt_snowflake:/opt/airflow/dbt
+      -  /home/mespinoza/test_dbt_snowflake:/opt/airflow/dbt
 
   airflow-scheduler:
     <<: *airflow-common
