@@ -126,6 +126,11 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - /home/mespinoza/test_dbt_snowflake/test_dbt_snowflake:/opt/airflow/dbt
 
   airflow-scheduler:
     <<: *airflow-common
@@ -281,3 +286,4 @@ services:
 
 volumes:
   postgres-db-volume:
+
