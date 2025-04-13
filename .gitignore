@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Airflow
+logs/
+*.log
+dags/__pycache__/
+
+# Docker
+.env
+*.pid
+docker-compose.yaml.backup
+
+# System
+.DS_Store
+.vscode/
+.idea/
