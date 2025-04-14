@@ -20,3 +20,5 @@ docker-compose.yaml.backup
 .DS_Store
 .vscode/
 .idea/
+
+env/
