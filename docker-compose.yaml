@@ -112,6 +112,7 @@ services:
 
   airflow-webserver:
     <<: *airflow-common
+    command: webserver
     ports:
       - "8080:8080"
     healthcheck:
@@ -127,17 +128,12 @@ services:
         condition: service_completed_successfully
     volumes:
       - ./dags:/opt/airflow/dags
-      - ../test_dbt_snowflake:/opt/airflow/dbt/test_dbt_snowflake
+      - ../test_dbt_snowflake:/opt/airflow/dbt
       - ./requirements.txt:/requirements.txt
-    environment:
-      - AIRFLOW__CORE__LOAD_EXAMPLES=False
-    command: >
-      bash -c "
-        pip install -r /requirements.txt &&
-        airflow webserver"
 
   airflow-scheduler:
     <<: *airflow-common
+    command: scheduler
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:8974/health"]
       interval: 30s
@@ -151,14 +147,8 @@ services:
         condition: service_completed_successfully
     volumes:
       - ./dags:/opt/airflow/dags
-      - ../test_dbt_snowflake:/opt/airflow/dbt/test_dbt_snowflake
+      - ../test_dbt_snowflake:/opt/airflow/dbt
       - ./requirements.txt:/requirements.txt
-    environment:
-      - AIRFLOW__CORE__LOAD_EXAMPLES=False
-    command: >
-      bash -c "
-        pip install -r /requirements.txt &&
-        airflow scheduler"
 
   airflow-worker:
     <<: *airflow-common
