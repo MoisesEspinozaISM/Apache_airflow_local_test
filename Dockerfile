@@ -11,4 +11,5 @@ USER airflow
 # Instala dbt y dbt-snowflake con el usuario correcto
 RUN pip install --no-cache-dir \
     dbt-core==1.8.7 \
-    dbt-snowflake==1.8.4
+    dbt-snowflake==1.8.4 \
+    airflow-dbt-python==0.15.3
