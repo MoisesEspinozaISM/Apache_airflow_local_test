@@ -21,7 +21,6 @@ with DAG(
     tags=['dbt', 'selectivos', 'materiales']
 ) as dag:
 
-    # Paso inicial: instalar dependencias de dbt
     install_deps = BashOperator(
         task_id='install_dbt_dependencies',
         bash_command=f"""
@@ -34,7 +33,7 @@ with DAG(
         task_id='run_sapprd_makt',
         bash_command=f"""
         cd {DBT_PROJECT_DIR} && \
-        dbt run --select sapprd_makt --profiles-dir {DBT_PROFILE_DIR}
+        dbt run --select test_dbt_snowflake.materiales.staging.sapprd_makt --profiles-dir {DBT_PROFILE_DIR}
         """
     )
 
@@ -42,7 +41,7 @@ with DAG(
         task_id='run_sapprd_mara',
         bash_command=f"""
         cd {DBT_PROJECT_DIR} && \
-        dbt run --select sapprd_mara --profiles-dir {DBT_PROFILE_DIR}
+        dbt run --select test_dbt_snowflake.materiales.staging.sapprd_mara --profiles-dir {DBT_PROFILE_DIR}
         """
     )
 
@@ -50,7 +49,7 @@ with DAG(
         task_id='run_sapprd_marc',
         bash_command=f"""
         cd {DBT_PROJECT_DIR} && \
-        dbt run --select sapprd_marc --profiles-dir {DBT_PROFILE_DIR}
+        dbt run --select test_dbt_snowflake.materiales.staging.sapprd_marc --profiles-dir {DBT_PROFILE_DIR}
         """
     )
 
@@ -58,9 +57,11 @@ with DAG(
         task_id='test_materiales_staging',
         bash_command=f"""
         cd {DBT_PROJECT_DIR} && \
-        dbt test --select sapprd_makt sapprd_mara sapprd_marc --profiles-dir {DBT_PROFILE_DIR}
+        dbt test --select test_dbt_snowflake.materiales.staging.sapprd_makt \
+                          test_dbt_snowflake.materiales.staging.sapprd_mara \
+                          test_dbt_snowflake.materiales.staging.sapprd_marc \
+                          --profiles-dir {DBT_PROFILE_DIR}
         """
     )
 
-    # Estructura de ejecución
     install_deps >> run_makt >> [run_mara, run_marc] >> test_all
